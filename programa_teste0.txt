@@ -1,0 +1,4 @@
+programa_SOL 1
+begin
+print(hello word);
+end
