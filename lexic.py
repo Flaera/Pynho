@@ -1,233 +1,194 @@
+import ply.lex as lex
+import string as st
 
 
-class Types():
-    def __init__(self):
-        '''Constructor of classes of word in compiler/interpretator.'''
-        self.PR = [
-            "if", "then", "else",
-            "int", "real", "boolean",
-            "print", "f",
-            "return", "function",
-            "write", "read",
-            "for", "while",
-            
-            "programa_SOL", "sequencia", "tempo", "fases_EPIC",
-            "Explore", "Interact", "Present", "Critique",
-            "navegar", "browser",
-            "visualizar_pdf", "visualizar_video", "videoconferencia",
-            "whatsapp_web", "email"
-        ]
-
-        self.TIME = ["30_min", "1_hora", "1_dia", "2_dias", "sem_limite"]
-        
-        self.DS = [";",".",",","(",")","[","]"]
-        
-        self.DC = ["begin", "end"]
-
-        self.MATH_OPERATORS = ["+","-","*","/","="]
-
-        self.REL_OPERATORS = ["==",">","<",">=","<=","!"]
-
-        self.VALUES_BOLLEAN = ["true", "false", "empty"]
-
-        self.DIGIT = ["0","1","2","3","4","5","6","7","8","9"]
-
-
-class AnaliserLexic():
-    def __init__(self, _input_data):
-        self.input_data = _input_data
-        self.acc_tokens = int(0)
-        self.tokens = []
-        self.types = Types()
-
-
-    def AddPRToken(self, part, index):
-        if (part.find(self.types.PR[index])==0):
-            self.tokens.append([self.types.PR[index], "WORD_RESERVED", self.acc_tokens])
-            self.acc_tokens+=1
-            return 1
-        return 0
+reserved = {
+    'if' : 'IF',
+    'then' : 'THEN',
+    'else' : 'ELSE',
+    'while' : 'WHILE',
+    'int':'INT', 'real':'REAL', 'boolean':'BOOLEAN',
+    'print':'PRINT',
+    'return':'RETURN', 'function':'FUNCTION',
+    'write':'WRITE', 'read':'READ',
+    'for':'FOR',
     
+    'programa_SOL':'PROGRAMA_SOL', 'sequencia':'SEQUENCIA', 'tempo':'TEMPO', 'fases_EPIC':'FASES_EPIC',
+    'Explore':'EXPLORE', 'Interact':'INTERACT', 'Present':'PRESENT', 'Critique':'CRITIQUE',
+    'navegar':'NAVEGAR', 'browser':'BROWSER',
+    'visualizar_pdf':'VISUALIZAR_PDF', 'visualizar_video':'VISUALIZAR_VIDEO', 'videoconferencia':'VIDEOCONFERENCIA',
+    'whatsapp_web':'WHATSAPP_WEB', 'email':'EMAIL',
 
-    def AddTIMEToken(self, part, index):
-        if (part.find(self.types.TIME[index])>-1):
-            self.tokens.append([self.types.TIME[index], "TIME", self.acc_tokens])
-            self.acc_tokens+=1
-            return 1
-        return 0
-    
+    'begin':'BEGIN','end':'END',
 
-    def AddDSToken(self, part, index):
-        if (part.find(self.types.DS[index])>-1):
-            self.tokens.append([self.types.DS[index], "DELIMITER_SIMPLE", self.acc_tokens])
-            self.acc_tokens+=1
-            return 1
-        return 0
+    "30_min":"30MIN", "1_hora":"1HORA", "1_dia":"1DIA",
+    "2_dias":"2DIAS", "sem_limite":"NO_LIMIT",
+
+    "false":"FALSE", "true":"TRUE", "empty":"EMPTY",
+}
 
 
-    def AddDCToken(self, part, index):
-        if (part.find(self.types.DC[index])>-1):
-            self.tokens.append([self.types.DC[index], "DELIMITER_COMPOST", self.acc_tokens])
-            self.acc_tokens+=1
-            return 1
-        return 0
+# List of token names.   This is always required
+tokens = [
+    'NUMBER',
+    'PLUS',
+    'MINUS',
+    'TIMES',
+    'DIVIDE',
+    'LPAREN',
+    'RPAREN',
+    'DS_POINT_COMMA',
+    'DS_COMMA',
+    'DS_POINT',
+    'DS_OCOCH',
+    'DS_CCOCH',
+    'DS_OKEY',
+    'DS_CKEY',
+    'RO_EQUAL',
+    'RO_THAN_MORE',
+    'RO_THAN_LESS',
+    'RO_THAN_MORE_OR_EQUAL',
+    'RO_THAN_LESS_OR_EQUAL',
+    'RO_DIFF',
+    'ALPHA',
+] + list(reserved.values())
+
+# Regular expression rules for simple tokens
+t_PLUS    = r'\+'
+t_MINUS   = r'-'
+t_TIMES   = r'\*'
+t_DIVIDE  = r'/'
+t_LPAREN  = r'\('
+t_RPAREN  = r'\)'
+t_DS_POINT_COMMA = r'\;'
+t_DS_COMMA = r'\,'
+t_DS_POINT = r'\.'
+t_DS_OCOCH = r'\['
+t_DS_CCOCH = r'\]'
+t_DS_OKEY = r'\{'
+t_DS_CKEY = r'\}'
+t_RO_EQUAL = r"\=\="
+t_RO_THAN_MORE = r"\>"
+t_RO_THAN_LESS = r"\<"
+t_RO_THAN_MORE_OR_EQUAL = r"\>\="
+t_RO_THAN_LESS_OR_EQUAL = r"\<\="
+t_RO_DIFF = r"\!"
+
+# t_A = r'\a'
+# t_B = r'\a'
+# t_C = r'\a'
+# t_D = r'\a'
+# t_E = r'\a'
+# t_F = r'\a'
+# t_G = r'\a'
+# t_H = r'\a'
+# t_I = r'\a'
+# t_J = r'\a'
+# t_K = r'\a'
+# t_L = r'\a'
+# t_M = r'\a'
+# t_N = r'\a'
+# t_O = r'\a'
+# t_P = r'\a'
+# t_Q = r'\a'
+# t_R = r'\a'
+# t_S = r'\a'
+# t_T = r'\a'
+# t_U = r'\a'
+# t_A = r'\a'
+# t_A = r'\a'
+# t_A = r'\a'
+# t_A = r'\a'
+
+t_PROGRAMA_SOL = r'programa_SOL'
+t_INT = r'int'
+t_REAL = r'real'
+t_BOOLEAN = r'boolean'
+t_PRINT = r'print'
+t_RETURN = r'return'
+t_FUNCTION = r'function'
+t_WRITE = r'write'
+t_READ = r'read'
+t_FOR = r'for'
+t_FASES_EPIC = r'fases_EPIC'
+t_TEMPO = r'tempo'
+t_SEQUENCIA = r'sequencia'
+t_EXPLORE = r'Explore'
+t_CRITIQUE = r'Critique'
+t_INTERACT = r'Interact'
+t_PRESENT = r'Present'
+t_NAVEGAR = r'navegar'
+t_BROWSER = r'browser'
+t_VISUALIZAR_VIDEO = r'visualizar_video'
+t_VISUALIZAR_PDF = r'visualizar_pdf'
+t_VIDEOCONFERENCIA = r'videoconferencia'
+t_EMAIL = r'email'
+t_WHATSAPP_WEB = r'whatsapp_web'
+t_END = r'end'
+t_BEGIN = r'begin'
+t_30MIN = r"30_min"
+t_1HORA = r"1_hora"
+t_1DIA = r"1_dia"
+t_2DIAS = r"2_dias"
+t_NO_LIMIT = r"sem_limite"
+t_EMPTY = r"empty"
+t_FALSE = r"false"
+t_TRUE = r"true"
 
 
-    def AddMOToken(self, part, index):
-        if (part.find(self.types.MATH_OPERATORS[index])>-1):
-            self.tokens.append([self.types.MATH_OPERATORS[index], "MATH_OPERATOR", self.acc_tokens])
-            self.acc_tokens+=1
-            return 1
-        return 0
-    
-
-    def AddROToken(self, part, index):
-        if (part.find(self.types.REL_OPERATORS[index])>-1):
-            self.tokens.append([self.types.REL_OPERATORS[index], "REL_OPERATOR", self.acc_tokens])
-            self.acc_tokens+=1
-            return 1
-        return 0
+# A regular expression rule with some action code
+def t_NUMBER(t):
+    r'\d+'
+    t.value = int(t.value)    
+    return t
 
 
-    def AddVBToken(self, part, index):
-        if (part.find(self.types.VALUES_BOLLEAN[index])>-1):
-            self.tokens.append([self.types.VALUES_BOLLEAN[index], "VALUES_BOOLEAN", self.acc_tokens])
-            self.acc_tokens+=1
-            return 1
-        return 0
-
-    
-    def AddDIGITToken(self, part, index):
-        if (part.find(self.types.DIGIT[index])>-1):
-            self.tokens.append([self.types.DIGIT[index], "DIGIT", self.acc_tokens])
-            self.acc_tokens+=1
-            return 1
-        return 0
+def t_ALPHA(t):
+    r'st.ascii_letters}'
+    t.value = int(t.value)
+    return t.value
 
 
-    def AddERRORToken(self, part):
-        self.tokens.append([part, "ERROR_LEXIC", self.acc_tokens])
-        self.acc_tokens+=1
+# Define a rule so we can track line numbers
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
 
 
-    def ShowTokens(self):
-        print("Tokens finded:")
-        for m in range(0,len(self.tokens)):
-            print(f"Token value={self.tokens[m][0]} | {self.tokens[m][1]} | {self.tokens[m][2]}")
+# A string containing ignored characters (spaces and tabs)
+t_ignore  = ' \t'
+t_ignore_COMMENT = r'\/\/.*'
+
+# Error handling rule
+def t_error(t):
+    print("Illegal character '%s'" % t.value[0])
+    t.lexer.skip(1)
 
 
-    def Run(self):
-        print("Tokenzing process initializated...")
-        parts = []
-        res = []
-        part1 = []
-        for i in self.input_data:
-            part1 = i.split(" ")
-            for j in part1:
-                parts.append(j)
-        print("parts=",parts)
-        for k in parts:
-            # print("k=",k,"")
-            
-            res.append(self.AddPRToken(k,0))
-            res.append(self.AddPRToken(k,1))
-            res.append(self.AddPRToken(k,2))
-            res.append(self.AddPRToken(k,3))
-            res.append(self.AddPRToken(k,4))
-            res.append(self.AddPRToken(k,5))
-            res.append(self.AddPRToken(k,6))
-            res.append(self.AddPRToken(k,7))
-            res.append(self.AddPRToken(k,8))
-            res.append(self.AddPRToken(k,9))
-            res.append(self.AddPRToken(k,10))
-            res.append(self.AddPRToken(k,11))
-            res.append(self.AddPRToken(k,12))
-            res.append(self.AddPRToken(k,13))
-            res.append(self.AddPRToken(k,14))
-            res.append(self.AddPRToken(k,15))
-            res.append(self.AddPRToken(k,16))
-            res.append(self.AddPRToken(k,17))
-            res.append(self.AddPRToken(k,18))
-            res.append(self.AddPRToken(k,19))
-            res.append(self.AddPRToken(k,20))
-            res.append(self.AddPRToken(k,21))
-            res.append(self.AddPRToken(k,22))
-            res.append(self.AddPRToken(k,23))
-            res.append(self.AddPRToken(k,24))
-            res.append(self.AddPRToken(k,25))
-            res.append(self.AddPRToken(k,26))
-            res.append(self.AddPRToken(k,27))
-            res.append(self.AddPRToken(k,28))
+datas = []
+acc0 = 0
+data = "0"
+while (data!=''):
+    data = input(f"{acc0}: ")
+    if (data!=''):
+        datas.append(data)
+        acc0+=1
+# print(datas," acc0=",acc0)
+data_joineds = str("")
+for i in datas:
+    data_joineds = data_joineds+i
 
-            res.append(self.AddTIMEToken(k, 0))
-            res.append(self.AddTIMEToken(k, 1))
-            res.append(self.AddTIMEToken(k, 2))
-            res.append(self.AddTIMEToken(k, 3))
-            res.append(self.AddTIMEToken(k, 4))
-
-            res.append(self.AddDSToken(k, 0))
-            res.append(self.AddDSToken(k, 1))
-            res.append(self.AddDSToken(k, 2))
-            res.append(self.AddDSToken(k, 3))
-            res.append(self.AddDSToken(k, 4))
-            res.append(self.AddDSToken(k, 5))
-            res.append(self.AddDSToken(k, 6))
-
-            res.append(self.AddDCToken(k,0))
-            res.append(self.AddDCToken(k,1))
-
-            res.append(self.AddMOToken(k, 0))
-            res.append(self.AddMOToken(k, 1))
-            res.append(self.AddMOToken(k, 2))
-            res.append(self.AddMOToken(k, 3))
-            res.append(self.AddMOToken(k, 4))
-
-            res.append(self.AddROToken(k, 0))
-            res.append(self.AddROToken(k, 1))
-            res.append(self.AddROToken(k, 2))
-            res.append(self.AddROToken(k, 3))
-            res.append(self.AddROToken(k, 4))
-            res.append(self.AddROToken(k, 5))
-
-            res.append(self.AddVBToken(k, 0))
-            res.append(self.AddVBToken(k, 1))
-            res.append(self.AddVBToken(k, 2))
-
-            res.append(self.AddDIGITToken(k,0))
-            res.append(self.AddDIGITToken(k,1))
-            res.append(self.AddDIGITToken(k,2))
-            res.append(self.AddDIGITToken(k,3))
-            res.append(self.AddDIGITToken(k,4))
-            res.append(self.AddDIGITToken(k,5))
-            res.append(self.AddDIGITToken(k,6))
-            res.append(self.AddDIGITToken(k,7))
-            res.append(self.AddDIGITToken(k,8))
-            res.append(self.AddDIGITToken(k,9))
-
-            if not(1 in res):
-                self.AddERRORToken(k)
-
-        self.ShowTokens()
+    # print(data_joineds)
 
 
+# Build the lexer
+lexer = lex.lex()
+lexer.input(data_joineds)
 
-def main():
-    lines = []
-    line = "000"
-    is_stop = False
-    number_line = 1
-    while is_stop==False:
-        line = input(f"{int(number_line)}:")
-        if (line!=''):
-            # print("AQUI")
-            if (line[0]!='/' and line[1]!='/'):
-                lines.append(line)
-        else:
-            is_stop = True
-        # print("lines=",lines)
-        number_line+=1
-    ana_lex = AnaliserLexic(lines)
-    ana_lex.Run()
-
-
-main()
+# Tokenize
+while True:
+    tok = lexer.token()
+    if not tok: 
+        break      # No more input
+    print(tok)
+# print(help(lexer))
