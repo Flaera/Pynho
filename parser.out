@@ -22,7 +22,6 @@ Unused terminals:
     EMAIL
     EMPTY
     END
-    EXPLORE
     FALSE
     FASES_EPIC
     FOR
@@ -30,6 +29,12 @@ Unused terminals:
     IF
     INT
     INTERACT
+    LINK_EMAIL
+    LINK_PDF
+    LINK_VIDEO
+    LINK_VIDEOCONFERENCIA
+    LINK_WHATSAPP_WEB
+    NAVEGADOR
     NAVEGAR
     NO_LIMIT
     PRESENT
@@ -66,6 +71,7 @@ Rule 5     term -> term DIVIDE factor
 Rule 6     term -> factor
 Rule 7     factor -> NUMBER
 Rule 8     factor -> LPAREN expression RPAREN
+Rule 9     statement -> EXPLORE
 
 Terminals, with rules where they appear
 
@@ -90,7 +96,7 @@ ELSE                 :
 EMAIL                : 
 EMPTY                : 
 END                  : 
-EXPLORE              : 
+EXPLORE              : 9
 FALSE                : 
 FASES_EPIC           : 
 FOR                  : 
@@ -98,8 +104,14 @@ FUNCTION             :
 IF                   : 
 INT                  : 
 INTERACT             : 
+LINK_EMAIL           : 
+LINK_PDF             : 
+LINK_VIDEO           : 
+LINK_VIDEOCONFERENCIA : 
+LINK_WHATSAPP_WEB    : 
 LPAREN               : 8
 MINUS                : 2
+NAVEGADOR            : 
 NAVEGAR              : 
 NO_LIMIT             : 
 NUMBER               : 7
@@ -134,6 +146,7 @@ Nonterminals, with rules where they appear
 
 expression           : 1 2 8 0
 factor               : 4 5 6
+statement            : 
 term                 : 1 2 3 4 5
 
 Parsing method: LALR
