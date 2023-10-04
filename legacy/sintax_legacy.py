@@ -1,4 +1,4 @@
-from lexic_legacy import *
+from legacy.lexic_legacy import *
 
 
 class AnaliserSintax():
