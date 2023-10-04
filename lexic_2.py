@@ -46,6 +46,7 @@ reserved = {
     'link_whatsapp_web': 'LINK_WHATSAPP_WEB',
     'link_email': 'LINK_EMAIL',
     'navegador': 'NAVEGADOR',
+    'loop': 'LOOP',
 }
 
 # List of token names
@@ -71,6 +72,8 @@ tokens = [
     'RO_THAN_LESS_OR_EQUAL',
     'RO_DIFF',
     'ALPHA',
+    #NEW TOKENS
+    #...
 ] + list(reserved.values())
 
 # Regular expression rules for simple tokens
@@ -94,16 +97,17 @@ t_RO_THAN_MORE_OR_EQUAL = r'\>\='
 t_RO_THAN_LESS_OR_EQUAL = r'\<\='
 t_RO_DIFF = r'\!'
 
-# A regular expression rule for numbers
-def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
-    return t
 
 # A regular expression rule for alphabetic identifiers
 def t_ALPHA(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value, 'ALPHA')  # Check for reserved words
+    return t
+
+# A regular expression rule for numbers
+def t_NUMBER(t):
+    r'\d+'
+    t.value = int(t.value)
     return t
 
 # Define a rule to track line numbers when a newline character is encountered

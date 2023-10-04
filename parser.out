@@ -22,6 +22,7 @@ Unused terminals:
     EMAIL
     EMPTY
     END
+    EXPLORE
     FALSE
     FASES_EPIC
     FOR
@@ -35,11 +36,8 @@ Unused terminals:
     LINK_VIDEOCONFERENCIA
     LINK_WHATSAPP_WEB
     NAVEGADOR
-    NAVEGAR
-    NO_LIMIT
     PRESENT
     PRINT
-    PROGRAMA_SOL
     READ
     REAL
     RETURN
@@ -62,7 +60,7 @@ Unused terminals:
 
 Grammar
 
-Rule 0     S' -> expression
+Rule 0     S' -> programa_SOL
 Rule 1     expression -> expression PLUS term
 Rule 2     expression -> expression MINUS term
 Rule 3     expression -> term
@@ -71,7 +69,8 @@ Rule 5     term -> term DIVIDE factor
 Rule 6     term -> factor
 Rule 7     factor -> NUMBER
 Rule 8     factor -> LPAREN expression RPAREN
-Rule 9     statement -> EXPLORE
+Rule 9     programa_SOL -> PROGRAMA_SOL LOOP NUMBER NAVEGAR NO_LIMIT
+Rule 10    programa_SOL -> NAVEGAR
 
 Terminals, with rules where they appear
 
@@ -96,7 +95,7 @@ ELSE                 :
 EMAIL                : 
 EMPTY                : 
 END                  : 
-EXPLORE              : 9
+EXPLORE              : 
 FALSE                : 
 FASES_EPIC           : 
 FOR                  : 
@@ -109,16 +108,17 @@ LINK_PDF             :
 LINK_VIDEO           : 
 LINK_VIDEOCONFERENCIA : 
 LINK_WHATSAPP_WEB    : 
+LOOP                 : 9
 LPAREN               : 8
 MINUS                : 2
 NAVEGADOR            : 
-NAVEGAR              : 
-NO_LIMIT             : 
-NUMBER               : 7
+NAVEGAR              : 9 10
+NO_LIMIT             : 9
+NUMBER               : 7 9
 PLUS                 : 1
 PRESENT              : 
 PRINT                : 
-PROGRAMA_SOL         : 
+PROGRAMA_SOL         : 9
 READ                 : 
 REAL                 : 
 RETURN               : 
@@ -144,222 +144,68 @@ error                :
 
 Nonterminals, with rules where they appear
 
-expression           : 1 2 8 0
+expression           : 1 2 8
 factor               : 4 5 6
-statement            : 
+programa_SOL         : 0
 term                 : 1 2 3 4 5
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . expression
-    (1) expression -> . expression PLUS term
-    (2) expression -> . expression MINUS term
-    (3) expression -> . term
-    (4) term -> . term TIMES factor
-    (5) term -> . term DIVIDE factor
-    (6) term -> . factor
-    (7) factor -> . NUMBER
-    (8) factor -> . LPAREN expression RPAREN
+    (0) S' -> . programa_SOL
+    (9) programa_SOL -> . PROGRAMA_SOL LOOP NUMBER NAVEGAR NO_LIMIT
+    (10) programa_SOL -> . NAVEGAR
 
-    NUMBER          shift and go to state 4
-    LPAREN          shift and go to state 5
+    PROGRAMA_SOL    shift and go to state 2
+    NAVEGAR         shift and go to state 3
 
-    expression                     shift and go to state 1
-    term                           shift and go to state 2
-    factor                         shift and go to state 3
+    programa_SOL                   shift and go to state 1
 
 state 1
 
-    (0) S' -> expression .
-    (1) expression -> expression . PLUS term
-    (2) expression -> expression . MINUS term
+    (0) S' -> programa_SOL .
 
-    PLUS            shift and go to state 6
-    MINUS           shift and go to state 7
 
 
 state 2
 
-    (3) expression -> term .
-    (4) term -> term . TIMES factor
-    (5) term -> term . DIVIDE factor
+    (9) programa_SOL -> PROGRAMA_SOL . LOOP NUMBER NAVEGAR NO_LIMIT
 
-    PLUS            reduce using rule 3 (expression -> term .)
-    MINUS           reduce using rule 3 (expression -> term .)
-    $end            reduce using rule 3 (expression -> term .)
-    RPAREN          reduce using rule 3 (expression -> term .)
-    TIMES           shift and go to state 8
-    DIVIDE          shift and go to state 9
+    LOOP            shift and go to state 4
 
 
 state 3
 
-    (6) term -> factor .
+    (10) programa_SOL -> NAVEGAR .
 
-    TIMES           reduce using rule 6 (term -> factor .)
-    DIVIDE          reduce using rule 6 (term -> factor .)
-    PLUS            reduce using rule 6 (term -> factor .)
-    MINUS           reduce using rule 6 (term -> factor .)
-    $end            reduce using rule 6 (term -> factor .)
-    RPAREN          reduce using rule 6 (term -> factor .)
+    $end            reduce using rule 10 (programa_SOL -> NAVEGAR .)
 
 
 state 4
 
-    (7) factor -> NUMBER .
+    (9) programa_SOL -> PROGRAMA_SOL LOOP . NUMBER NAVEGAR NO_LIMIT
 
-    TIMES           reduce using rule 7 (factor -> NUMBER .)
-    DIVIDE          reduce using rule 7 (factor -> NUMBER .)
-    PLUS            reduce using rule 7 (factor -> NUMBER .)
-    MINUS           reduce using rule 7 (factor -> NUMBER .)
-    $end            reduce using rule 7 (factor -> NUMBER .)
-    RPAREN          reduce using rule 7 (factor -> NUMBER .)
+    NUMBER          shift and go to state 5
 
 
 state 5
 
-    (8) factor -> LPAREN . expression RPAREN
-    (1) expression -> . expression PLUS term
-    (2) expression -> . expression MINUS term
-    (3) expression -> . term
-    (4) term -> . term TIMES factor
-    (5) term -> . term DIVIDE factor
-    (6) term -> . factor
-    (7) factor -> . NUMBER
-    (8) factor -> . LPAREN expression RPAREN
+    (9) programa_SOL -> PROGRAMA_SOL LOOP NUMBER . NAVEGAR NO_LIMIT
 
-    NUMBER          shift and go to state 4
-    LPAREN          shift and go to state 5
+    NAVEGAR         shift and go to state 6
 
-    expression                     shift and go to state 10
-    term                           shift and go to state 2
-    factor                         shift and go to state 3
 
 state 6
 
-    (1) expression -> expression PLUS . term
-    (4) term -> . term TIMES factor
-    (5) term -> . term DIVIDE factor
-    (6) term -> . factor
-    (7) factor -> . NUMBER
-    (8) factor -> . LPAREN expression RPAREN
+    (9) programa_SOL -> PROGRAMA_SOL LOOP NUMBER NAVEGAR . NO_LIMIT
 
-    NUMBER          shift and go to state 4
-    LPAREN          shift and go to state 5
+    NO_LIMIT        shift and go to state 7
 
-    term                           shift and go to state 11
-    factor                         shift and go to state 3
 
 state 7
 
-    (2) expression -> expression MINUS . term
-    (4) term -> . term TIMES factor
-    (5) term -> . term DIVIDE factor
-    (6) term -> . factor
-    (7) factor -> . NUMBER
-    (8) factor -> . LPAREN expression RPAREN
+    (9) programa_SOL -> PROGRAMA_SOL LOOP NUMBER NAVEGAR NO_LIMIT .
 
-    NUMBER          shift and go to state 4
-    LPAREN          shift and go to state 5
-
-    term                           shift and go to state 12
-    factor                         shift and go to state 3
-
-state 8
-
-    (4) term -> term TIMES . factor
-    (7) factor -> . NUMBER
-    (8) factor -> . LPAREN expression RPAREN
-
-    NUMBER          shift and go to state 4
-    LPAREN          shift and go to state 5
-
-    factor                         shift and go to state 13
-
-state 9
-
-    (5) term -> term DIVIDE . factor
-    (7) factor -> . NUMBER
-    (8) factor -> . LPAREN expression RPAREN
-
-    NUMBER          shift and go to state 4
-    LPAREN          shift and go to state 5
-
-    factor                         shift and go to state 14
-
-state 10
-
-    (8) factor -> LPAREN expression . RPAREN
-    (1) expression -> expression . PLUS term
-    (2) expression -> expression . MINUS term
-
-    RPAREN          shift and go to state 15
-    PLUS            shift and go to state 6
-    MINUS           shift and go to state 7
-
-
-state 11
-
-    (1) expression -> expression PLUS term .
-    (4) term -> term . TIMES factor
-    (5) term -> term . DIVIDE factor
-
-    PLUS            reduce using rule 1 (expression -> expression PLUS term .)
-    MINUS           reduce using rule 1 (expression -> expression PLUS term .)
-    $end            reduce using rule 1 (expression -> expression PLUS term .)
-    RPAREN          reduce using rule 1 (expression -> expression PLUS term .)
-    TIMES           shift and go to state 8
-    DIVIDE          shift and go to state 9
-
-
-state 12
-
-    (2) expression -> expression MINUS term .
-    (4) term -> term . TIMES factor
-    (5) term -> term . DIVIDE factor
-
-    PLUS            reduce using rule 2 (expression -> expression MINUS term .)
-    MINUS           reduce using rule 2 (expression -> expression MINUS term .)
-    $end            reduce using rule 2 (expression -> expression MINUS term .)
-    RPAREN          reduce using rule 2 (expression -> expression MINUS term .)
-    TIMES           shift and go to state 8
-    DIVIDE          shift and go to state 9
-
-
-state 13
-
-    (4) term -> term TIMES factor .
-
-    TIMES           reduce using rule 4 (term -> term TIMES factor .)
-    DIVIDE          reduce using rule 4 (term -> term TIMES factor .)
-    PLUS            reduce using rule 4 (term -> term TIMES factor .)
-    MINUS           reduce using rule 4 (term -> term TIMES factor .)
-    $end            reduce using rule 4 (term -> term TIMES factor .)
-    RPAREN          reduce using rule 4 (term -> term TIMES factor .)
-
-
-state 14
-
-    (5) term -> term DIVIDE factor .
-
-    TIMES           reduce using rule 5 (term -> term DIVIDE factor .)
-    DIVIDE          reduce using rule 5 (term -> term DIVIDE factor .)
-    PLUS            reduce using rule 5 (term -> term DIVIDE factor .)
-    MINUS           reduce using rule 5 (term -> term DIVIDE factor .)
-    $end            reduce using rule 5 (term -> term DIVIDE factor .)
-    RPAREN          reduce using rule 5 (term -> term DIVIDE factor .)
-
-
-state 15
-
-    (8) factor -> LPAREN expression RPAREN .
-
-    TIMES           reduce using rule 8 (factor -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 8 (factor -> LPAREN expression RPAREN .)
-    PLUS            reduce using rule 8 (factor -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 8 (factor -> LPAREN expression RPAREN .)
-    $end            reduce using rule 8 (factor -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 8 (factor -> LPAREN expression RPAREN .)
+    $end            reduce using rule 9 (programa_SOL -> PROGRAMA_SOL LOOP NUMBER NAVEGAR NO_LIMIT .)
 
