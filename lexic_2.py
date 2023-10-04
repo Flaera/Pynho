@@ -58,6 +58,7 @@ tokens = [
     'DIVIDE',
     'LPAREN',
     'RPAREN',
+    'ATRIB',
     'DS_POINT_COMMA',
     'DS_COMMA',
     'DS_POINT',
@@ -83,6 +84,7 @@ t_TIMES = r'\*'
 t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+t_ATRIB = r'\='
 t_DS_POINT_COMMA = r'\;'
 t_DS_COMMA = r'\,'
 t_DS_POINT = r'\.'

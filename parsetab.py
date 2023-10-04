@@ -6,7 +6,7 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'programa_SOL1DIA 1HORA 2DIAS 30MIN ALPHA BEGIN BOOLEAN BROWSER CRITIQUE DIVIDE DS_CCOCH DS_CKEY DS_COMMA DS_OCOCH DS_OKEY DS_POINT DS_POINT_COMMA ELSE EMAIL EMPTY END EXPLORE FALSE FASES_EPIC FOR FUNCTION IF INT INTERACT LINK_EMAIL LINK_PDF LINK_VIDEO LINK_VIDEOCONFERENCIA LINK_WHATSAPP_WEB LOOP LPAREN MINUS NAVEGADOR NAVEGAR NO_LIMIT NUMBER PLUS PRESENT PRINT PROGRAMA_SOL READ REAL RETURN RO_DIFF RO_EQUAL RO_THAN_LESS RO_THAN_LESS_OR_EQUAL RO_THAN_MORE RO_THAN_MORE_OR_EQUAL RPAREN SEQUENCIA TEMPO THEN TIMES TRUE VIDEOCONFERENCIA VISUALIZAR_PDF VISUALIZAR_VIDEO WHATSAPP_WEB WHILE WRITEexpression : expression PLUS termexpression : expression MINUS termexpression : termterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : NUMBERfactor : LPAREN expression RPARENprograma_SOL : PROGRAMA_SOL LOOP NUMBER NAVEGAR NO_LIMITprograma_SOL : NAVEGAR'
+_lr_signature = 'programa_SOL1DIA 1HORA 2DIAS 30MIN ALPHA ATRIB BEGIN BOOLEAN BROWSER CRITIQUE DIVIDE DS_CCOCH DS_CKEY DS_COMMA DS_OCOCH DS_OKEY DS_POINT DS_POINT_COMMA ELSE EMAIL EMPTY END EXPLORE FALSE FASES_EPIC FOR FUNCTION IF INT INTERACT LINK_EMAIL LINK_PDF LINK_VIDEO LINK_VIDEOCONFERENCIA LINK_WHATSAPP_WEB LOOP LPAREN MINUS NAVEGADOR NAVEGAR NO_LIMIT NUMBER PLUS PRESENT PRINT PROGRAMA_SOL READ REAL RETURN RO_DIFF RO_EQUAL RO_THAN_LESS RO_THAN_LESS_OR_EQUAL RO_THAN_MORE RO_THAN_MORE_OR_EQUAL RPAREN SEQUENCIA TEMPO THEN TIMES TRUE VIDEOCONFERENCIA VISUALIZAR_PDF VISUALIZAR_VIDEO WHATSAPP_WEB WHILE WRITEexpression : expression PLUS termexpression : expression MINUS termexpression : termterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : NUMBERfactor : LPAREN expression RPARENprograma_SOL : PROGRAMA_SOL LOOP NUMBER NAVEGAR NO_LIMITprograma_SOL : NAVEGAR'
     
 _lr_action_items = {'PROGRAMA_SOL':([0,],[2,]),'NAVEGAR':([0,5,],[3,6,]),'$end':([1,3,7,],[0,-10,-9,]),'LOOP':([2,],[4,]),'NUMBER':([4,],[5,]),'NO_LIMIT':([6,],[7,]),}
 
@@ -27,14 +27,14 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> programa_SOL","S'",1,None,None,None),
-  ('expression -> expression PLUS term','expression',3,'p_expression_plus','syntatic.py',14),
-  ('expression -> expression MINUS term','expression',3,'p_expression_minus','syntatic.py',18),
-  ('expression -> term','expression',1,'p_expression_term','syntatic.py',22),
-  ('term -> term TIMES factor','term',3,'p_term_times','syntatic.py',26),
-  ('term -> term DIVIDE factor','term',3,'p_term_div','syntatic.py',30),
-  ('term -> factor','term',1,'p_term_factor','syntatic.py',34),
-  ('factor -> NUMBER','factor',1,'p_factor_num','syntatic.py',38),
-  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','syntatic.py',42),
-  ('programa_SOL -> PROGRAMA_SOL LOOP NUMBER NAVEGAR NO_LIMIT','programa_SOL',5,'p_programa_SOL','syntatic.py',47),
-  ('programa_SOL -> NAVEGAR','programa_SOL',1,'p_command_navegar','syntatic.py',57),
+  ('expression -> expression PLUS term','expression',3,'p_expression_plus','syntatic.py',15),
+  ('expression -> expression MINUS term','expression',3,'p_expression_minus','syntatic.py',19),
+  ('expression -> term','expression',1,'p_expression_term','syntatic.py',23),
+  ('term -> term TIMES factor','term',3,'p_term_times','syntatic.py',27),
+  ('term -> term DIVIDE factor','term',3,'p_term_div','syntatic.py',31),
+  ('term -> factor','term',1,'p_term_factor','syntatic.py',35),
+  ('factor -> NUMBER','factor',1,'p_factor_num','syntatic.py',39),
+  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','syntatic.py',43),
+  ('programa_SOL -> PROGRAMA_SOL LOOP NUMBER NAVEGAR NO_LIMIT','programa_SOL',5,'p_programa_SOL','syntatic.py',48),
+  ('programa_SOL -> NAVEGAR','programa_SOL',1,'p_command_navegar','syntatic.py',58),
 ]

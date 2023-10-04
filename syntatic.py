@@ -9,6 +9,7 @@ import webbrowser
 start = 'programa_SOL'
 
 print("tokens=",tokens)
+# print("tokens=",tokens)
 
 def p_expression_plus(p):
     'expression : expression PLUS term'
