@@ -40,6 +40,12 @@ reserved = {
     'false': 'FALSE',
     'true': 'TRUE',
     'empty': 'EMPTY',
+    'link_pdf': 'LINK_PDF',
+    'link_video': 'LINK_VIDEO',
+    'link_videoconferencia': 'LINK_VIDEOCONFERENCIA',
+    'link_whatsapp_web': 'LINK_WHATSAPP_WEB',
+    'link_email': 'LINK_EMAIL',
+    'navegador': 'NAVEGADOR',
 }
 
 # List of token names
