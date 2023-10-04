@@ -2,7 +2,7 @@ import ply.yacc as yacc
 
 # Get the token map from the lexer.  This is required.
 from lexic_2 import tokens
-print("tokens=",tokens)
+# print("tokens=",tokens)
 
 def p_expression_plus(p):
     'expression : expression PLUS term'
@@ -43,11 +43,14 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc()
 
-while True:
-   try:
-       s = input('calc > ') #raw_input('calc > ')
-   except EOFError:
-       break
-   if not s: continue
-   result = parser.parse(s)
-   print(result)
+from lexic_2 import data_joineds
+
+# while True:
+try:
+#    s = input('calc > ') #raw_input('calc > ')
+    s = data_joineds
+except EOFError:
+    break
+if not s: continue
+result = parser.parse(s)
+print(result)

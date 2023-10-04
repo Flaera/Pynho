@@ -7,6 +7,7 @@ Unused terminals:
     2DIAS
     30MIN
     ALPHA
+    ATRIB
     BEGIN
     BOOLEAN
     BROWSER
@@ -74,6 +75,7 @@ Terminals, with rules where they appear
 2DIAS                : 
 30MIN                : 
 ALPHA                : 
+ATRIB                : 
 BEGIN                : 
 BOOLEAN              : 
 BROWSER              : 
