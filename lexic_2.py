@@ -45,6 +45,7 @@ reserved = {
     'link_videoconferencia': 'LINK_VIDEOCONFERENCIA',
     'link_whatsapp_web': 'LINK_WHATSAPP_WEB',
     'link_email': 'LINK_EMAIL',
+    'navegador': 'NAVEGADOR',
 }
 
 # List of token names
